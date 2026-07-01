@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Hét Vezér Krónikája</title>
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    background-image: url('hatter.jpg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+        #overlay { background: rgba(0, 0, 0, 0.85); padding: 30px; border-radius: 20px; max-width: 800px; width: 90%; border: 2px solid #ffcc00; margin: 40px 0; }
+        .timer { font-size: 2rem; font-weight: bold; color: #ffcc00; margin: 20px 0; }
+        .box { background: rgba(255, 255, 255, 0.15); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .alban-box { background: rgba(255, 204, 0, 0.15); border: 1px solid #ffcc00; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .comic-image { width: 100%; display: none; border-radius: 10px; border: 2px solid #fff; }
+        .comic-image.active { display: block; }
+        .controls { margin-top: 15px; }
+        button { padding: 10px 20px; cursor: pointer; background: #ffcc00; border: none; border-radius: 5px; font-weight: bold; }
+        .fact-text { font-size: 1.1rem; line-height: 1.6; color: #eee; text-align: justify; }
+        .phrase-box { font-size: 1.2rem; margin-top: 10px; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1>Hét Vezér Krónikája</h1>
+        <div id="timer" class="timer">Betöltés...</div>
+        
+        <div class="box">
+            <h3>Napi lecke: Albán kultúra és nyelv</h3>
+            <div class="alban-box">
+                <p id="daily-fact" class="fact-text"></p>
+                <hr style="border-top: 1px solid #ffcc00; margin: 15px 0;">
+                <div id="phrase-container" class="phrase-box"></div>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>Képregény - I. Fejezet</h3>
+            <div id="comic-container">
+                <img class="comic-image active" src="kep1.jpg.png" alt="1">
+                <img class="comic-image" src="kep2.jpg.png" alt="2">
+                <img class="comic-image" src="kep3.jpg.png" alt="3">
+                <img class="comic-image" src="kep4.jpg.png" alt="4">
+                <img class="comic-image" src="kep5.jpg.png" alt="5">
+                <img class="comic-image" src="kep6.jpg.png" alt="6">
+                <img class="comic-image" src="kep7.jpg.png" alt="7">
+                <img class="comic-image" src="kep8.jpg.png" alt="8">
+                <img class="comic-image" src="kep9.jpg.png" alt="9">
+                <img class="comic-image" src="kep10.jpg.png" alt="10">
+		<img class="comic-image" src="kep11.jpg.png" alt="11">
+		<img class="comic-image" src="kep12.jpg.png" alt="12">
+		<img class="comic-image" src="kep13.jpg.png" alt="13">
+		<img class="comic-image" src="kep14.jpg.png" alt="14">
+		<img class="comic-image" src="kep15.jpg.png" alt="15">
+            </div>
+            <div class="controls">
+                <button onclick="changePage(-1)">Előző</button>
+                <button onclick="changePage(1)">Következő</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Időzítő
+        const target = new Date("2026-07-31T20:00:00").getTime();
+        function updateTimer() {
+            const diff = target - new Date().getTime();
+            if (diff <= 0) { document.getElementById("timer").innerHTML = "Elindult a krónika!"; return; }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById("timer").innerHTML = `${d} nap maradt a nagy kalandig!`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 2. Képléptető
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.comic-image');
+        function changePage(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        // 3. Adatok (Részletes magyar/albán párhuzam)
+        const contentPairs = [
+            { fact: "Albánia a 'Sasok Földje' néven is ismert, mivel a sas az albán nemzeti identitás és a zászló központi eleme.", phrase: "Sas albánul: Shqiponja, kiejtve: S-kji-pon-ja." },
+            { fact: "Az albán vendégszeretet a 'Besa' fogalmán alapszik, ami egy szent eskü. Ha egy albán vendégül lát valakit, az élete árán is megvédi őt.", phrase: "Vendégszeretet albánul: Mikëpritje, kiejtve: Mi-kö-pri-tye." },
+            { fact: "A bunkerek mindenhol ott vannak: Enver Hoxha diktátor több mint 170 000 vasbeton bunkert építtetett.", phrase: "Bunker albánul: Bunker, kiejtve: Bun-ker." },
+            { fact: "A 'Burnesha-k', avagy a szűz férfiak hagyománya: A hegyvidéken egy nő esküt tehet, hogy férfiként él, nadrágot hord, férfi nevet kap, és ő lesz a család feje.", phrase: "Hol találok szűz férfit? albánul: Ku mund të gjej një burrneshë?, kiejtve: Ku munt tö gyey nyö bur-ne-shö?" },
+            { fact: "Tirana, a főváros, egy igazi színkavalkád. A szürke kommunista épületeket élénk, vibráló színekre festették.", phrase: "Színes város albánul: Qytet me ngjyra, kiejtve: Csi-tet me ngji-ra." },
+            { fact: "A rakija nem csak egy ital, hanem egy szertartás. Szinte minden vidéki albán család saját maga főzi a szőlőből készült égetett szeszt.", phrase: "Igyunk egyet! albánul: Le të pimë diçka!, kiejtve: Le tö pi-mö di-cska." },
+            { fact: "Az albánoknál a fejrázás igen-t, a bólintás nem-et jelenthet a hagyományos kultúrában.", phrase: "Igen/Nem albánul: Po / Jo, kiejtve: Po / Jo." },
+            { fact: "Teréz anya albán származású volt, és az albánok rendkívül büszkék rá. Ma egy nemzetközi repülőtér is viseli a nevét Tiranában.", phrase: "Büszke vagyok albánul: Jam krenar, kiejtve: Jam kre-nar." },
+            { fact: "A Byrek egy ropogós, töltött tésztaféle, ami kihagyhatatlan albán reggeli. Spenóttal, túróval vagy hússal töltik.", phrase: "Kérek egy byreket! albánul: Dua një byrek!, kiejtve: Du-a ny-ö bü-rek." },
+            { fact: "A 'Xhiro' az esti közös sétálás rituáléja minden albán városban. Naplemente után az emberek ellepik az utcákat.", phrase: "Sétáljunk! albánul: Le të shëtisim!, kiejtve: Le tö sö-ti-szim." },
+            { fact: "Berat, az 1000 ablak városa, az UNESCO Világörökség része. Az egymás felett épült fehér házak látványa egyedülálló.", phrase: "Sok ablak albánul: Shumë dritare, kiejtve: Su-mö dri-ta-re." },
+            { fact: "Skanderbeg a nemzeti hős, akinek szobra minden albán város főterén ott áll. Ő vezette az albánokat az oszmánok ellen.", phrase: "Hős albánul: Hero, kiejtve: He-ro." },
+            { fact: "Az olívaolaj szinte minden albán étel alapja. Az országban hatalmas olajfaligetek vannak, és a minőség világszínvonalú.", phrase: "Olívaolaj albánul: Vaj ulliri, kiejtve: Váj u-lli-ri." },
+            { fact: "Az albán zászló piros, közepén a fekete kétfejű sassal. Ez a szimbólum a középkori nemesi családoktól származik.", phrase: "Zászló albánul: Flamuri, kiejtve: Fla-mu-ri." },
+            { fact: "Butrint egy hatalmas görög-római romváros a tenger mellett. A terület egy igazi időutazás.", phrase: "Tenger albánul: Deti, kiejtve: De-ti." }
+        ];
+
+        let fullSchedule = [...contentPairs, ...contentPairs];
+        fullSchedule.push(contentPairs[0]); 
+
+        const today = new Date().getDate(); 
+        const index = (today - 1) % fullSchedule.length;
+
+        document.getElementById("phrase-container").innerText = fullSchedule[index].phrase;
+        document.getElementById("daily-fact").innerText = fullSchedule[index].fact;
+    </script>
+</body>
+</html>
